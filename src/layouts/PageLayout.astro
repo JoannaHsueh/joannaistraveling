@@ -1,0 +1,32 @@
+---
+import Layout from '~/layouts/Layout.astro';
+import Header from '~/components/widgets/Header.astro';
+import Footer from '~/components/widgets/Footer.astro';
+
+import { headerData, footerData } from '~/navigation';
+
+import type { MetaData } from '~/types';
+
+export interface Props {
+  metadata?: MetaData;
+}
+
+const { metadata } = Astro.props;
+---
+
+<Layout metadata={metadata}>
+  <slot name="header">
+    <Header {...headerData} isSticky showRssFeed showToggleTheme />
+  </slot>
+  <main>
+    <slot />
+  </main>
+  <div class="mx-auto px-6 sm:px-6 max-w-3xl mt-8 flex flex-col items-start">
+    <p class="mt-4 text-sm text-gray-500 dark:text-gray-400">
+      © {new Date().getFullYear()} Yu Hua, Hsueh. 本網站內容採用
+      <a href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" class="underline hover:text-primary">
+        CC BY-NC-ND 4.0
+      </a> 授權，可轉載，請標註作者姓名或網站連結；歡迎節錄引用，但請勿修改原文內容。
+    </p>
+  </div>
+</Layout>

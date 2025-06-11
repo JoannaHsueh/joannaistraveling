@@ -1,0 +1,71 @@
+---
+import { APP_BLOG } from 'astrowind:config';
+import type { Post } from '~/types';
+import Image from '~/components/common/Image.astro';
+import { findImage } from '~/utils/images';
+import { getPermalink } from '~/utils/permalinks';
+import { testLoadImages } from '~/utils/images.ts'; //test
+
+
+export interface Props {
+  post: Post;
+}
+
+const { post } = Astro.props;
+const image = await findImage(post.image);
+const imageSrc = typeof image === 'string' ? image : image?.src ?? '';
+
+const link = APP_BLOG?.post?.isEnabled ? getPermalink(post.permalink, 'post') : '';
+const imageWidth = post.imageWidth ?? 800;
+const imageHeight = post.imageHeight ?? 800; // 預設高度
+
+---
+
+<article
+  class="mb-6 transition intersect-once intersect-quarter motion-safe:md:opacity-0 motion-safe:md:intersect:animate-fade"
+>
+  <div class="relative aspect-square bg-gray-400 dark:bg-slate-700 rounded shadow-lg mb-6 overflow-hidden">
+    {
+      image &&
+        (link ? (
+          <a href={link} aria-label={post.title}>
+            <Image
+              src={image}
+              class="w-full h-full object-cover"
+              alt={post.title}
+              width={post.imageWidth ?? 1080}
+              height={post.imageHeight ?? 1080}
+              sizes="(max-width: 900px) 400px, 900px"
+              loading="lazy"
+              decoding="async"
+            />
+          </a>
+        ) : (
+          <Image
+            src={image}
+            class="w-full h-full object-cover"
+            alt={post.title}
+            width={post.imageWidth ?? 1080}
+            height={post.imageHeight ?? 1080}
+            sizes="(max-width: 900px) 400px, 900px"
+            loading="lazy"
+            decoding="async"
+          />
+        ))
+    }
+  </div>
+
+  <h3 class="text-xl sm:text-2xl font-bold leading-tight mb-2 font-heading dark:text-slate-300">
+    {
+      link ? (
+        <a class="inline-block hover:text-primary dark:hover:text-blue-700 transition ease-in duration-200" href={link}>
+          {post.title}
+        </a>
+      ) : (
+        post.title
+      )
+    }
+  </h3>
+
+  <p class="text-muted dark:text-slate-400 text-lg">{post.excerpt}</p>
+</article>

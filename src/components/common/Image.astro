@@ -1,0 +1,54 @@
+---
+const props = Astro.props;
+const alt = props.alt?.trim() || 'Image description missing';
+
+// 取得原始圖片路徑
+let rawSrc = '';
+if (typeof props.src === 'string') {
+  rawSrc = props.src;
+} else if (typeof props.src === 'object' && props.src?.src) {
+  rawSrc = props.src.src;
+} else {
+  throw new Error('Invalid src prop for Image component, must be string or object with src');
+}
+
+// 轉換成瀏覽器可用的路徑
+function normalizePathForBrowser(input) {
+  let path = String(input || '');
+
+  // 去掉查詢參數（?origWidth=...）
+  path = path.split('?')[0];
+
+  // 將本地路徑 src/assets/... 轉成 /assets/...
+  // 假設 build 時資源會放在 public/assets/
+  if (path.startsWith('/src/assets/')) {
+    path = path.replace('/src/assets/', '/assets/');
+  }
+
+  // 如果以 /src/ 開頭但不是資產路徑，也轉成相對路徑，避免出錯
+  else if (path.startsWith('/src/')) {
+    path = path.replace('/src/', '/');
+  }
+
+  return path;
+}
+
+const src = normalizePathForBrowser(rawSrc);
+
+// 預設寬高與屬性
+const width = typeof props.width === 'string' ? parseInt(props.width) : props.width ?? 800;
+const height = typeof props.height === 'string' ? parseInt(props.height) : props.height ?? 800;
+const loading = props.loading ?? 'lazy';
+const decoding = props.decoding ?? 'async';
+const className = props.class || '';
+---
+
+<img
+  src={src}
+  alt={alt}
+  width={width}
+  height={height}
+  loading={loading}
+  decoding={decoding}
+  class={className}
+/>
