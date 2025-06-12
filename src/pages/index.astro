@@ -23,7 +23,7 @@ const metadata = {
 
   <Hero>
       <Fragment slot="title">
-        <span class="mt-15 text-white">
+        <span class="mt-15 text-white text-2xl sm:text-4xl text-center block">
         遠方在眼前，筆下有瞬間。</span>
         <span class="hidden xl:inline"></span>
         <span class="text-accent dark:text-white"></span>
@@ -39,12 +39,12 @@ const metadata = {
           <br />
           落筆隨性，但求捕捉悸動瞬間。
         </span>
-        <span class="block mb-1 sm:hidden font-bold text-blue-600">
+        <span class="block mb-1 sm:hidden font-bold text-white">
           當我開始旅行，終於感受到世界近在眼前。
         </span>
       </Fragment>
     <Fragment slot="bg">
-      <div class="relative h-[550px] w-full mt-20">
+      <div class="relative h-[300px] sm:h-[550px] w-full mt-20">
         <div class="absolute inset-0 bg-cover bg-center" style="background-image: url('/images/homepage_bg.png');"></div>
         <div class="absolute inset-0 bg-black/30"></div> <!-- 半透明黑遮罩 -->
       </div>
@@ -375,7 +375,7 @@ const metadata = {
   <CallToAction
     actions={[
       {
-        variant: 'secondary',
+        variant: 'primary',
         text: 'Go to Joanna\'s Instagram',
         href: 'https://www.instagram.com/joanna_is_traveling?igsh=OGlwbDFjZ2xnN3Uw&utm_source=qr',
         target: '_blank',
@@ -384,11 +384,12 @@ const metadata = {
     ]}
   >
     <Fragment slot="title">
-      @joanna_is_traveling<br class="block sm:hidden" /><span class="sm:whitespace-nowrap"></span>
+      <span class="text-black text-lg sm:text-2xl">@joanna_is_traveling</span>
+      <br class="block sm:hidden" /><span class="sm:whitespace-nowrap"></span>
     </Fragment>
 
     <Fragment slot="subtitle">
-      See more pics and posts on Instagram :)
+      <span class="text-black">See more pics and posts on Instagram :)</span>
     </Fragment>
   </CallToAction>
 </Layout>
